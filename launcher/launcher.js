@@ -69,7 +69,9 @@
     button.setAttribute("aria-checked", "false");
     button.setAttribute(
       "aria-label",
-      `${language.english}, ${language.native}`
+      language.code === "en"
+        ? language.english
+        : `${language.english}, ${language.native}`
     );
 
     const radio = document.createElement("span");
@@ -87,7 +89,8 @@
 
     const native = document.createElement("span");
     native.className = "native-name";
-    native.textContent = language.native;
+    native.textContent =
+      language.code === "en" ? "" : language.native;
     native.dir = direction;
     native.lang = language.code;
 
@@ -119,6 +122,7 @@
       if (nextIndex !== null) {
         event.preventDefault();
         optionButtons[nextIndex].focus();
+        optionButtons[nextIndex].click();
       }
     });
 
@@ -173,9 +177,7 @@
       text: "--text",
       mutedText: "--muted-text",
       border: "--border",
-      selectedBorder: "--selected-border",
-      accentStart: "--accent-start",
-      accentEnd: "--accent-end"
+      selectedBorder: "--selected-border"
     };
 
     for (const [key, cssVar] of Object.entries(cssVars)) {
