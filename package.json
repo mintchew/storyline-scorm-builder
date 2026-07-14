@@ -1,0 +1,20 @@
+{
+  "name": "storyline-multilingual-builder",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Reusable SCORM 2004 multilingual launcher and packaging tool for Articulate Storyline.",
+  "scripts": {
+    "preview": "node build/preview.js",
+    "validate": "node build/validate.js",
+    "build": "node build/build.js",
+    "clean": "node build/clean.js"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "fs-extra": "^11.3.0",
+    "open": "^10.2.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

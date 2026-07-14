@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Generated build folders
+.build/
+.preview/
+output/
+
+# Storyline publishes (keep folder structure only)
+storyline/*/*
+!storyline/*/.gitkeep
+
+# Storyline source files
+*.story
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Language Selection</title>
+  <link rel="stylesheet" href="launcher.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="selector-panel" aria-labelledby="page-title">
+      <header class="selector-header">
+        <span class="globe-icon" aria-hidden="true">◎</span>
+        <div>
+          <h1 id="page-title"></h1>
+          <p id="page-subtitle"></p>
+        </div>
+      </header>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <div
+        id="language-grid"
+        class="language-grid"
+        role="radiogroup"
+        aria-label="Available languages">
+      </div>
+
+      <p id="status-message" class="status-message" aria-live="polite"></p>
+
+      <button id="confirm-button" class="confirm-button" type="button" disabled>
+        Confirm Language
+      </button>
+    </section>
+  </main>
+
+  <script src="runtime-config.js"></script>
+  <script src="launcher.js"></script>
+</body>
+</html>

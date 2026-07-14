@@ -1,0 +1,24 @@
+{
+  "companyName": "Client Name",
+  "courseTitle": "FY27 Code of Business Conduct",
+  "launcherTitle": "Select the language you would like to use for this course",
+  "launcherSubtitle": "Choose a language below",
+  "confirmButtonLabel": "Confirm Language",
+  "logo": "",
+  "backgroundImage": "",
+  "rememberSelection": true,
+  "preselectBrowserLanguage": false,
+  "colors": {
+    "backgroundStart": "#071026",
+    "backgroundMiddle": "#171a4a",
+    "backgroundEnd": "#061a36",
+    "panel": "rgba(8, 15, 45, 0.90)",
+    "card": "rgba(15, 25, 62, 0.92)",
+    "text": "#f5f7ff",
+    "mutedText": "#aab6d3",
+    "border": "#445371",
+    "selectedBorder": "#6f8fff",
+    "accentStart": "#6ba4ff",
+    "accentEnd": "#58e3d0"
+  }
+}

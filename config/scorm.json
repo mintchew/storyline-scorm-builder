@@ -1,0 +1,10 @@
+{
+  "version": "2004",
+  "edition": "4th",
+  "identifier": "STORYLINE_MULTILINGUAL_COURSE",
+  "organizationIdentifier": "ORG-1",
+  "resourceIdentifier": "RES-1",
+  "title": "FY27 Code of Business Conduct",
+  "launchFile": "launcher/index.html",
+  "outputFile": "multilingual_storyline_scorm2004.zip"
+}

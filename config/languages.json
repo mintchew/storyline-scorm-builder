@@ -1,0 +1,20 @@
+[
+  {
+    "code": "en",
+    "english": "English",
+    "native": "English",
+    "dir": "ltr"
+  },
+  {
+    "code": "ar",
+    "english": "Arabic",
+    "native": "العربية",
+    "dir": "rtl"
+  },
+  {
+    "code": "es-419",
+    "english": "Spanish (Latin America)",
+    "native": "Español (Latinoamérica)",
+    "dir": "ltr"
+  }
+]
