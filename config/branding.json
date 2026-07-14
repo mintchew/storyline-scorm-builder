@@ -14,11 +14,9 @@
     "backgroundEnd": "#061a36",
     "panel": "rgba(8, 15, 45, 0.90)",
     "card": "rgba(15, 25, 62, 0.92)",
-    "text": "#f5f7ff",
-    "mutedText": "#aab6d3",
+    "text": "#ffffff",
+    "mutedText": "#ffffff",
     "border": "#445371",
-    "selectedBorder": "#6f8fff",
-    "accentStart": "#6ba4ff",
-    "accentEnd": "#58e3d0"
+    "selectedBorder": "#6f8fff"
   }
 }

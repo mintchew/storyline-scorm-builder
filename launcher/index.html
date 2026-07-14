@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark">
   <title>Language Selection</title>
   <link rel="stylesheet" href="launcher.css">
 </head>
@@ -11,8 +10,21 @@
   <main class="page-shell">
     <section class="selector-panel" aria-labelledby="page-title">
       <header class="selector-header">
-        <span class="globe-icon" aria-hidden="true">◎</span>
-        <div>
+        <svg
+          class="globe-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M3 12h18"></path>
+          <path d="M12 3c2.6 2.45 4 5.42 4 9s-1.4 6.55-4 9"></path>
+          <path d="M12 3c-2.6 2.45-4 5.42-4 9s1.4 6.55 4 9"></path>
+          <path d="M5.6 6.5h12.8"></path>
+          <path d="M5.6 17.5h12.8"></path>
+        </svg>
+
+        <div class="header-copy">
           <h1 id="page-title"></h1>
           <p id="page-subtitle"></p>
         </div>
@@ -24,12 +36,23 @@
         id="language-grid"
         class="language-grid"
         role="radiogroup"
-        aria-label="Available languages">
-      </div>
+        aria-labelledby="page-title"
+        aria-describedby="page-subtitle"
+      ></div>
 
-      <p id="status-message" class="status-message" aria-live="polite"></p>
+      <p
+        id="status-message"
+        class="status-message"
+        role="status"
+        aria-live="polite"
+      ></p>
 
-      <button id="confirm-button" class="confirm-button" type="button" disabled>
+      <button
+        id="confirm-button"
+        class="confirm-button"
+        type="button"
+        disabled
+      >
         Confirm Language
       </button>
     </section>
