@@ -38,6 +38,7 @@ function validateConfiguration({ requireStoryline = true } = {}) {
     const storyPath = path.join(
       projectRoot,
       "storyline",
+      "published",
       language.code,
       "story.html"
     );
@@ -50,7 +51,7 @@ function validateConfiguration({ requireStoryline = true } = {}) {
   if (requireStoryline && missing.length) {
     throw new Error(
       `Missing story.html for: ${missing.join(", ")}\n` +
-      "Publish each Storyline course into storyline/<language-code>/."
+      "Publish each Storyline course into storyline/published/<language-code>/."
     );
   }
 

@@ -58,10 +58,11 @@ async function build() {
   );
 
   await fs.copy(
-    path.join(projectRoot, "storyline"),
+    path.join(projectRoot, "storyline", "published"),
     path.join(stagingDir, "storyline"),
     {
-      filter: (source) => path.basename(source) !== "PLACE_STORYLINE_PUBLISH_HERE.txt"
+      filter: (source) => path.basename(source) !== "PLACE_STORYLINE_PUBLISH_HERE.txt" &&
+      path.basename(source) !== ".gitkeep"
     }
   );
 

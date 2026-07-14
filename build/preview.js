@@ -28,7 +28,7 @@ async function preparePreview() {
   await fs.ensureDir(previewDir);
   await fs.copy(path.join(projectRoot, "launcher"), previewDir);
   await fs.copy(
-    path.join(projectRoot, "storyline"),
+    path.join(projectRoot, "storyline", "published"),
     path.join(previewDir, "storyline")
   );
   const runtimeConfig = createRuntimeConfig(
