@@ -4,8 +4,7 @@
   const config = window.LAUNCHER_CONFIG;
 
   if (!config || !Array.isArray(config.languages)) {
-    document.body.innerHTML =
-      '<main style="padding:2rem;color:white">Launcher configuration is missing.</main>';
+    document.body.innerHTML = "Launcher configuration is missing.";
     return;
   }
 
@@ -38,6 +37,7 @@
     const rememberedLanguage = config.languages.find(
       (language) => language.code === rememberedCode
     );
+
     if (rememberedLanguage) {
       selectLanguage(rememberedLanguage);
     }
@@ -49,14 +49,19 @@
     if (!selectedLanguage) return;
 
     if (config.branding.rememberSelection) {
-      localStorage.setItem("storylineLanguage", selectedLanguage.code);
+      localStorage.setItem(
+        "storylineLanguage",
+        selectedLanguage.code
+      );
     }
 
     window.location.assign(selectedLanguage.launchPath);
   });
 
   function createLanguageButton(language) {
+    const direction = language.dir || "ltr";
     const button = document.createElement("button");
+
     button.type = "button";
     button.className = "language-option";
     button.dataset.code = language.code;
@@ -77,25 +82,38 @@
     const english = document.createElement("span");
     english.className = "english-name";
     english.textContent = language.english;
+    english.lang = "en";
+    english.dir = "ltr";
 
     const native = document.createElement("span");
     native.className = "native-name";
     native.textContent = language.native;
-    native.dir = language.dir || "ltr";
+    native.dir = direction;
     native.lang = language.code;
 
     copy.append(english, native);
     button.append(radio, copy);
 
-    button.addEventListener("click", () => selectLanguage(language));
+    button.addEventListener("click", () => {
+      selectLanguage(language);
+    });
+
     button.addEventListener("keydown", (event) => {
       const index = optionButtons.indexOf(button);
       let nextIndex = null;
 
-      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      if (
+        event.key === "ArrowRight" ||
+        event.key === "ArrowDown"
+      ) {
         nextIndex = (index + 1) % optionButtons.length;
-      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-        nextIndex = (index - 1 + optionButtons.length) % optionButtons.length;
+      } else if (
+        event.key === "ArrowLeft" ||
+        event.key === "ArrowUp"
+      ) {
+        nextIndex =
+          (index - 1 + optionButtons.length) %
+          optionButtons.length;
       }
 
       if (nextIndex !== null) {
@@ -123,15 +141,23 @@
 
   function preselectBrowserLanguage() {
     const browserCode = (navigator.language || "").toLowerCase();
+
     const directMatch = config.languages.find(
-      (language) => language.code.toLowerCase() === browserCode
+      (language) =>
+        language.code.toLowerCase() === browserCode
     );
+
     const baseMatch = config.languages.find(
       (language) =>
-        language.code.toLowerCase().split("-")[0] === browserCode.split("-")[0]
+        language.code.toLowerCase().split("-")[0] ===
+        browserCode.split("-")[0]
     );
+
     const match = directMatch || baseMatch;
-    if (match) selectLanguage(match);
+
+    if (match) {
+      selectLanguage(match);
+    }
   }
 
   function applyBranding(branding) {
@@ -153,12 +179,16 @@
     };
 
     for (const [key, cssVar] of Object.entries(cssVars)) {
-      if (colors[key]) root.style.setProperty(cssVar, colors[key]);
+      if (colors[key]) {
+        root.style.setProperty(cssVar, colors[key]);
+      }
     }
 
     if (branding.backgroundImage) {
       document.body.style.backgroundImage =
-        `linear-gradient(rgba(4, 8, 25, 0.56), rgba(4, 8, 25, 0.72)), url("${branding.backgroundImage}")`;
+        `linear-gradient(rgba(4, 8, 25, 0.56), ` +
+        `rgba(4, 8, 25, 0.72)), ` +
+        `url("${branding.backgroundImage}")`;
       document.body.style.backgroundSize = "cover";
       document.body.style.backgroundPosition = "center";
     }

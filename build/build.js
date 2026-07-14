@@ -1,21 +1,36 @@
-const fs = require("fs-extra");
+const fs = require("fs");
+const {
+  cp,
+  mkdir,
+  readdir,
+  rm,
+  writeFile
+} = require("fs/promises");
 const path = require("path");
 const archiver = require("archiver");
-const { validateConfiguration, projectRoot } = require("./validate");
-const { createRuntimeConfig, writeRuntimeConfig } = require("./runtime");
+
+const {
+  validateConfiguration,
+  projectRoot
+} = require("./validate");
+const {
+  createRuntimeConfig,
+  writeRuntimeConfig
+} = require("./runtime");
 const { generateManifest } = require("./manifest");
 
 const stagingDir = path.join(projectRoot, ".build");
 const outputDir = path.join(projectRoot, "output");
 
-function listFiles(dir, base = dir) {
+async function listFiles(dir, base = dir) {
   const results = [];
+  const entries = await readdir(dir, { withFileTypes: true });
 
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+  for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
 
     if (entry.isDirectory()) {
-      results.push(...listFiles(fullPath, base));
+      results.push(...(await listFiles(fullPath, base)));
     } else {
       results.push(path.relative(base, fullPath));
     }
@@ -25,19 +40,26 @@ function listFiles(dir, base = dir) {
 }
 
 async function zipDirectory(sourceDir, outputFile) {
-  await fs.ensureDir(path.dirname(outputFile));
+  await mkdir(path.dirname(outputFile), { recursive: true });
 
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(outputFile);
-    const archive = archiver("zip", { zlib: { level: 9 } });
+    const archive = archiver("zip", {
+      zlib: { level: 9 }
+    });
 
     output.on("close", resolve);
-    archive.on("warning", (error) => {
-      if (error.code === "ENOENT") console.warn(error.message);
-      else reject(error);
-    });
-    archive.on("error", reject);
+    output.on("error", reject);
 
+    archive.on("warning", (error) => {
+      if (error.code === "ENOENT") {
+        console.warn(error.message);
+      } else {
+        reject(error);
+      }
+    });
+
+    archive.on("error", reject);
     archive.pipe(output);
     archive.directory(sourceDir, false);
     archive.finalize();
@@ -46,47 +68,55 @@ async function zipDirectory(sourceDir, outputFile) {
 
 async function build() {
   console.log("Validating project...");
-  const config = validateConfiguration();
+  const config = await validateConfiguration();
 
   console.log("Preparing package...");
-  await fs.remove(stagingDir);
-  await fs.ensureDir(stagingDir);
+  await rm(stagingDir, { recursive: true, force: true });
+  await mkdir(stagingDir, { recursive: true });
 
-  await fs.copy(
+  await cp(
     path.join(projectRoot, "launcher"),
-    path.join(stagingDir, "launcher")
+    path.join(stagingDir, "launcher"),
+    { recursive: true }
   );
 
-  await fs.copy(
+  await cp(
     path.join(projectRoot, "storyline", "published"),
     path.join(stagingDir, "storyline"),
     {
-      filter: (source) => path.basename(source) !== "PLACE_STORYLINE_PUBLISH_HERE.txt" &&
-      path.basename(source) !== ".gitkeep"
+      recursive: true,
+      filter: (source) => {
+        const name = path.basename(source);
+
+        return (
+          name !== "PLACE_STORYLINE_PUBLISH_HERE.txt" &&
+          name !== ".gitkeep"
+        );
+      }
     }
   );
 
-  const runtimeConfig = createRuntimeConfig(
-    config,
-    "../storyline"
-  );
+  const runtimeConfig = createRuntimeConfig(config, "../storyline");
 
-  writeRuntimeConfig(
+  await writeRuntimeConfig(
     path.join(stagingDir, "launcher", "runtime-config.js"),
     runtimeConfig
   );
 
-  const files = listFiles(stagingDir);
+  const files = await listFiles(stagingDir);
   const manifest = generateManifest(config.scorm, files);
-  await fs.writeFile(
+
+  await writeFile(
     path.join(stagingDir, "imsmanifest.xml"),
     manifest,
     "utf8"
   );
 
-  await fs.ensureDir(outputDir);
+  await mkdir(outputDir, { recursive: true });
+
   const outputFile = path.join(outputDir, config.scorm.outputFile);
-  await fs.remove(outputFile);
+
+  await rm(outputFile, { force: true });
 
   console.log("Creating SCORM ZIP...");
   await zipDirectory(stagingDir, outputFile);
